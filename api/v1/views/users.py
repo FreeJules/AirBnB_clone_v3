@@ -14,7 +14,7 @@ def all_users():
     curl --request GET \
     --url http://localhost:5000/api/v1/users
     """
-    users = [user.to_json() for user in storage.all("User")]
+    users = [user.to_json() for user in storage.all("User").values()]
     return jsonify(users)
 
 
