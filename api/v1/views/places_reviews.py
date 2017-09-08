@@ -8,7 +8,7 @@ from flask import jsonify, abort, make_response, request
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
-def all_reviews():
+def all_reviews(place_id):
     """
     Retrieves the list of all Review objects
     ----------------------------------------------------------------------------
@@ -54,7 +54,7 @@ def delete_review(review_id):
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
-def create_review():
+def create_review(place_id):
     """
     Creates a Review
     ----------------------------------------------------------------------------
