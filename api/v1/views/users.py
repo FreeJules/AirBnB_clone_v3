@@ -2,7 +2,7 @@
 """
 Module Users API
 """
-from api.v1.views import app_views, storage
+from api.v1.views import app_views, storage, User
 from flask import jsonify, abort, make_response, request
 
 
