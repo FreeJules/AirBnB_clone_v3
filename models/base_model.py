@@ -95,13 +95,17 @@ class BaseModel:
         """returns json representation of self"""
         bm_dict = {}
         for key, value in (self.__dict__).items():
+            '''
             if key == '_sa_instance_state':
                 del key
+            '''
             if (self.__is_serializable(value)):
                 bm_dict[key] = value
             else:
                 bm_dict[key] = str(value)
         bm_dict['__class__'] = type(self).__name__
+        if '_sa_instance_state' in bm_dict:
+            bm_dict.pop('_sa_instance_state', None)
         return(bm_dict)
 
     def __str__(self):
