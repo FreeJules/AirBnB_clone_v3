@@ -64,6 +64,7 @@ class DBStorage:
         """ deletes obj from current database session if not None """
         if obj is not None:
             self.__session.delete(obj)
+            self.__session.commit()
 
     def reload(self):
         """ creates all tables in database & session from engine """
