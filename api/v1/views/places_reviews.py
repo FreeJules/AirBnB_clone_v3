@@ -15,7 +15,10 @@ def all_reviews():
     curl --request GET \
     --url http://localhost:5000/api/v1/places/%3Cplace_id%3E/reviews
     """
-    reviews = [review.to_json() for review in storage.all("Review").values()]
+    place = storage.get("Place", place_id)
+    if place is None:
+        abort(404)
+    reviews = [review.to_json() for review in place.reviews]
     return jsonify(reviews)
 
 
@@ -75,6 +78,7 @@ def create_review():
         abort(404)
     if 'text' not in req_json.keys():
         return make_response(jsonify({'error': "Missing text"}), 400)
+    req_json["place_id"] = place_id
     data = Review(**req_json)
     data.save()
     return jsonify(data.to_json()), 201
