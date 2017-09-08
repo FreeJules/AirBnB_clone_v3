@@ -56,3 +56,15 @@ class Place(BaseModel, Base):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = ['', '']
+
+        @property
+        def reviews(self):
+            """
+                getter method, returns list of Review objs from storage
+                linked to the current Place
+            """
+            review_list = []
+            for review in models.storage.all("Review").values():
+                if review.place_id == self.id:
+                    review_list.append(review)
+            return review_list
