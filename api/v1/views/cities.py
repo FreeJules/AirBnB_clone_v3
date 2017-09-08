@@ -19,6 +19,7 @@ def cities_in_state(state_id):
         abort(404)
     return jsonify(cities)
 
+
 @app_views.route('/cities/<city_id>', methods=['GET'],
                  strict_slashes=False)
 def city_by_id(city_id):
@@ -29,6 +30,7 @@ def city_by_id(city_id):
     if city is None:
         abort(404)
     return jsonify(city.to_json())
+
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'],
                  strict_slashes=False)
@@ -42,6 +44,7 @@ def delete_city(city_id):
     else:
         storage.delete(city)
     return jsonify({})
+
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                  strict_slashes=False)
@@ -62,6 +65,7 @@ def create_city(state_id):
         data = City(**req_json)
         data.save()
         return jsonify(data.to_json()), 201
+
 
 @app_views.route('/cities/<city_id>', methods=['PUT'],
                  strict_slashes=False)
