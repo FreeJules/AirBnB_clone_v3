@@ -61,7 +61,7 @@ class BaseModel:
                 attr_dict['updated_at'] = datetime.strptime(
                     attr_dict['updated_at'], '%Y-%m-%d %H:%M:%S.%f')
         if storage_type != 'db':
-            if attr_dict['__class__']:
+            if '__class__' in attr_dict:
                 attr_dict.pop('__class__')
         for attr, val in attr_dict.items():
             setattr(self, attr, val)
