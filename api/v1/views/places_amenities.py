@@ -67,3 +67,15 @@ def link_amenity(place_id, amenity_id):
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
         abort(404)
+    if storage_type != db:
+        if amenity_id in place.amenity_ids:
+            return jsonify(amenity), 200
+        place.amenity_ids.append(amenity_id)
+        place.save()
+        return jsonify(amenity), 201
+    else:
+        if amenity in place.amenities:
+            return jsonify(amenity), 200
+        place.amenities.append(amenity)
+        place.save()
+        return jsonify(amenity), 201
