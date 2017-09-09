@@ -69,9 +69,8 @@ class Place(BaseModel, Base):
                     review_list.append(review)
             return review_list
 
-
-            @property
-            def amenities(self):
+        @property
+        def amenities(self):
             """
                 getter method, returns list of Amenity objs from storage
                 linked to the current Place
