@@ -19,3 +19,15 @@ class City(BaseModel, Base):
     else:
         state_id = ''
         name = ''
+
+        @property
+        def places(self):
+            """
+                getter method, returns list of Place objs from storage
+                linked to the current City
+            """
+            place_list = []
+            for place in models.storage.all("Place").values():
+                if place.city_id == self.id:
+                    place_list.append(place)
+            return place_list
