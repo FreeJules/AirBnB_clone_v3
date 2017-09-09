@@ -68,3 +68,16 @@ class Place(BaseModel, Base):
                 if review.place_id == self.id:
                     review_list.append(review)
             return review_list
+
+
+            @property
+            def amenities(self):
+            """
+                getter method, returns list of Amenity objs from storage
+                linked to the current Place
+            """
+            amenity_list = []
+            for amenity in models.storage.all("Amenity").values():
+                if amenity.id in self.amenity_ids:
+                    amenity_list.append(amenity)
+            return amenity_list
