@@ -3,7 +3,7 @@
 Module Places Amenities API
 """
 import os
-from api.v1.views import app_views, storage, Place, Amenity, PlaceAmenity
+from api.v1.views import app_views, storage, Place, Amenity
 from flask import jsonify, abort, make_response, request
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
