@@ -3,13 +3,13 @@
 Module Places Amenities API
 """
 import os
-from api.v1.views import app_views, storage, Review, Place, User, Amenity
+from api.v1.views import app_views, storage, Place, Amenity, PlaceAmenity
 from flask import jsonify, abort, make_response, request
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
-def all_amenities(place_id):
+def all_place_amenities(place_id):
     """
     Retrieves the list of all Place Amenity objects of a Place
     ----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ def all_amenities(place_id):
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_amenity(place_id, amenity_id):
+def delete_place_amenity(place_id, amenity_id):
     """
     Deletes a Amenity object to a Place
     ----------------------------------------------------------------------------
@@ -42,10 +42,9 @@ def delete_amenity(place_id, amenity_id):
     amenities = place.amenities()
     if amenity.id not in amenities.keys():
         abort(404)
-    if storage_type == db:
-        storage.delete(amenity)
-    else:
+    if storage_type != db:
         place.amenity_ids.remove(amenity_id)
+        place.save()
     return jsonify({}), 200
 
 
