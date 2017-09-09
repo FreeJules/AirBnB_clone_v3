@@ -74,7 +74,9 @@ def create_review(place_id):
         return make_response(jsonify({'error': "Not a JSON"}), 400)
     if 'user_id' not in req_json.keys():
         return make_response(jsonify({'error': "Missing user_id"}), 400)
-    if storage.get("User", user_id) is None:
+    uid = req_json.get("user_id")
+    user = storage.get("User", uid)
+    if user is None:
         abort(404)
     if 'text' not in req_json.keys():
         return make_response(jsonify({'error': "Missing text"}), 400)
