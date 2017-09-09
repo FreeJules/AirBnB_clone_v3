@@ -34,10 +34,10 @@ def viewPlacesById(place_id=None):
     """
     if place_id is None:
         abort(404)
-    places = storage.get("Place", place_id)
-    if places is None:
+    place = storage.get("Place", place_id)
+    if place is None:
         abort(404)
-    return jsonify(amenity.to_json())
+    return jsonify(place.to_json())
 
 
 @app_views.route('/places/<place_id>',
@@ -50,10 +50,10 @@ def deletePlace(place_id=None):
     """
     if place_id is None:
         abort(404)
-    places = storage.get("Place", place_id)
-    if places is None:
+    place = storage.get("Place", place_id)
+    if place is None:
         abort(404)
-    storage.delete(places)
+    storage.delete(place)
     return jsonify({}), 200
 
 
@@ -110,6 +110,6 @@ def updatePlace(place_id=None):
     for fields in ("id", "user_id", "city_id", "created_at", "updated_at"):
         reqJson.pop(fields, None)
     for k, v in reqJson.items():
-        setattr(amenity, k, v)
-    amenity.save()
-    return jsonify(amenity.to_json()), 200
+        setattr(place, k, v)
+    place.save()
+    return jsonify(place.to_json()), 200
