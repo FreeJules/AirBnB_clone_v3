@@ -7,6 +7,7 @@ from api.v1.views import app_views, storage, Place, Amenity, PlaceAmenity
 from flask import jsonify, abort, make_response, request
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
+
 @app_views.route('/places/<place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
 def all_place_amenities(place_id):
@@ -44,7 +45,9 @@ def delete_place_amenity(place_id, amenity_id):
         abort(404)
     if storage_type != db:
         place.amenity_ids.remove(amenity_id)
-        place.save()
+    else:
+        place.amenities.remove(amenity)
+    place.save()
     return jsonify({}), 200
 
 
@@ -64,21 +67,3 @@ def link_amenity(place_id, amenity_id):
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
         abort(404)
-
-    """
-    req_json = request.get_json()
-    if req_json is None:
-        return make_response(jsonify({'error': "Not a JSON"}), 400)
-    if 'user_id' not in req_json.keys():
-        return make_response(jsonify({'error': "Missing user_id"}), 400)
-    uid = req_json.get("user_id")
-    user = storage.get("User", uid)
-    if user is None:
-        abort(404)
-    if 'text' not in req_json.keys():
-        return make_response(jsonify({'error': "Missing text"}), 400)
-    req_json["place_id"] = place_id
-    data = Review(**req_json)
-    data.save()
-    return jsonify(data.to_json()), 201
-    """
