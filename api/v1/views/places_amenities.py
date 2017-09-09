@@ -69,13 +69,13 @@ def link_amenity(place_id, amenity_id):
         abort(404)
     if storage_type != db:
         if amenity_id in place.amenity_ids:
-            return jsonify(amenity), 200
+            return jsonify(amenity.to_json()), 200
         place.amenity_ids.append(amenity_id)
         place.save()
-        return jsonify(amenity), 201
+        return jsonify(amenity.to_json()), 201
     else:
         if amenity in place.amenities:
-            return jsonify(amenity), 200
+            return jsonify(amenity.to_json()), 200
         place.amenities.append(amenity)
         place.save()
-        return jsonify(amenity), 201
+        return jsonify(amenity.to_json()), 201
