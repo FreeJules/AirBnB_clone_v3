@@ -85,7 +85,7 @@ class FileStorage:
         if (cls not in self.CNC) or (id1 is None):
             return None
         allObjs = self.all(cls)
-        return allObjs
+        return allObjs.get(id1)
 
     def count(self, cls=None):
         """
