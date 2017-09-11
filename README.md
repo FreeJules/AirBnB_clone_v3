@@ -96,7 +96,7 @@ github repo
 * Kimberly Wong, [kjowong](http://github.com/kjowong) | [@kjowong](http://twitter.com/kjowong) | [kjowong@gmail.com](kjowong@gmail.com)
 * Carrie Ybay, [hicarrie](http://github.com/hicarrie) | [@hicarrie_](http://twitter.com/hicarrie_)
 * Julija Lee [@LeeJulija](https://twitter.com/LeeJulija)
-* Megha Mohan, [@meghamohan](https://github.com/meghamohan)
+* Megha Mohan [@meghamohan](https://twitter.com/meghamohan1989)
 
 ## License
 
