@@ -4,6 +4,7 @@ view for State objects that handles all default RestFul API actions
 """
 from api.v1.views import storage, app_views, State
 from flask import (jsonify, make_response, request, abort)
+from os import getenv
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -34,12 +35,15 @@ def deleteState(state_id=None):
     """
         
     """
-    if stateId is None:
+    if state_id is None:
         abort(404)
-    state = storage.get("State", stateId)
+    state = storage.get("State", state_id)
+    print(state)
     if state is None:
         abort(404)
     storage.delete(state)
+    storage.save()
+    storage.reload()
     return jsonify({}), 200
 
 
@@ -56,4 +60,12 @@ def createState():
     data = State(**reqJson)
     data.save()
     return jsonify(data.to_json()), 201
+
+
+@app_views.route('/states/<states_id>', methods=['PUT'], strict_slashes=False)
+def updateState():
+    """
+        
+    """
+    
 
