@@ -78,14 +78,15 @@ class FileStorage:
         """
         self.reload()
 
-    def get(self, cls, id1):
+    def get(self, cls, id):
         """
             method to retrieve one object
         """
-        if (cls not in self.CNC) or (id1 is None):
+        if (cls not in self.CNC) or (id is None):
             return None
-        allObjs = self.all(cls)
-        return allObjs.get(id1)
+        all_objs = self.all(cls)
+        new_id = cls + '.' + id
+        return all_objs.get(new_id)
 
     def count(self, cls=None):
         """
