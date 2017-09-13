@@ -30,7 +30,8 @@ def viewOneState(state_id=None):
     return jsonify(state.to_json())
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def deleteState(state_id=None):
     """
         Deletes a State object
@@ -50,7 +51,7 @@ def deleteState(state_id=None):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def createState():
     """
-       Creates a State 
+       Creates a State
     """
     reqJson = request.get_json()
     if reqJson is None:
@@ -75,8 +76,7 @@ def updateState(states_id=None):
         abort(404)
     for fields in ("id", "created_at", "updated_at"):
         reqJson.pop(fields, None)
-    for k,v in reqJson.items():
+    for k, v in reqJson.items():
         setattr(state, k, v)
     state.save()
     return jsonify(state.to_json()), 200
-
