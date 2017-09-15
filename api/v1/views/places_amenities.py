@@ -40,10 +40,10 @@ def delete_place_amenity(place_id, amenity_id):
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
         abort(404)
-    amenities = place.amenities()
-    if amenity.id not in amenities.keys():
-        abort(404)
     if storage_type != "db":
+        amenities = place.amenities()
+        if amenity_id not in amenities.keys():
+            abort(404)
         place.amenity_ids.remove(amenity_id)
     else:
         place.amenities.remove(amenity)
