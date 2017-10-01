@@ -113,3 +113,65 @@ def updatePlace(place_id=None):
         setattr(place, k, v)
     place.save()
     return jsonify(place.to_json()), 200
+
+
+""" ADVANCED: places_search """
+
+
+@app_views.route('/places_search',
+                 methods=['POST'], strict_slashes=False)
+def searchPlace():
+    """
+        Searches a Place object
+        curl --request POST \
+        --url http://localhost:5000/api/v1/places_search \
+        --header 'content-type: application/json' \
+        --data '{"states" : ["31599588-39d3-48bd-84e5-b929b7eaf7cd"], \
+                 "cities" : ["23459588-39d3-48bd-84e5-b929b7eaf6ba"], \
+                 "amenities" : ["15659588-39d3-48bd-84e5-b929b7eafcbd"] \
+                }
+    """
+    reqJson = request.get_json()
+    if reqJson is None:
+        return "Not a JSON", 400
+    """
+    If the JSON body is empty or each list of all keys are empty:
+    retrieve all Place objects
+    """
+    if not reqJson or (not reqJson['states'] and
+                       not reqJson['cities'] and
+                       not reqJson['amenities']):
+        places = [place.to_json() for place in storage.all("Place").values()]
+        return jsonify(places)
+    """
+    If states list is not empty, search for Place objects
+    inside each State ids listed
+    """
+    places = []
+    state_ids = reqJson['states']
+    if not state_ids:
+        st_city_ids = []
+    else:
+        for state_id in state_ids:
+            state = storage.get("State", state_id)
+            if state is not None:
+                st_city_ids = [getattr(city, 'id') for city in state.cities]
+    city_ids = reqJson['cities']
+    if not city_ids:
+        city_ids = []
+    all_city_ids = list(set(st_city_ids) | set(city_ids))
+    for city_id in all_city_ids:
+        city = storage.get("City", city_id)
+        if city is not None:
+            places.extend([place for place in city.places])
+    amenity_ids = reqJson['amenities']
+    if amenity_ids:
+        set_amenity_ids = set(amenity_ids)
+        """places_copy = list(places)"""
+        for place in places:
+            pl_am_ids = [getattr(amenity, 'id') for amenity in place.amenities]
+            set_pl_am_ids = set(pl_am_ids)
+            if not set_amenity_ids.issubset(set_pl_am_ids):
+                places.remove(place)
+    places_to_json = [p.to_json() for p in places]
+    return jsonify(places_to_json)
